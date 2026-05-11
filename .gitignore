@@ -42,3 +42,5 @@ next-env.d.ts
 
 # setup scripts (contienen datos sensibles, no commitear)
 /setup/crear-usuarios.mjs
+
+.vercel
