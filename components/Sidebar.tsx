@@ -10,27 +10,28 @@ import {
 } from 'lucide-react'
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/combustible', label: 'Combustible', icon: Fuel },
-  { href: '/dashboard/camiones', label: 'Camiones / Flota', icon: Truck },
-  { href: '/dashboard/choferes', label: 'Choferes', icon: UserCheck },
-  { href: '/dashboard/viajes', label: 'Viajes / Fletes', icon: MapPin },
-  { href: '/dashboard/comisiones', label: 'Comisiones', icon: DollarSign },
-  { href: '/dashboard/cargas', label: 'Cargas de Combustible', icon: Droplets },
-  { href: '/dashboard/mantenimiento', label: 'Mantenimiento', icon: Wrench },
-  { href: '/dashboard/cubiertas', label: 'Cubiertas', icon: Disc },
-  { href: '/dashboard/gastos', label: 'Gastos', icon: Receipt },
-  { href: '/dashboard/clientes', label: 'Clientes', icon: Users },
-  { href: '/dashboard/reportes', label: 'Reportes', icon: BarChart2 },
-  { href: '/dashboard/usuarios', label: 'Usuarios', icon: Settings },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['admin', 'encargado', 'chofer'] },
+  { href: '/dashboard/combustible', label: 'Combustible', icon: Fuel, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/camiones', label: 'Camiones / Flota', icon: Truck, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/choferes', label: 'Choferes', icon: UserCheck, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/viajes', label: 'Viajes / Fletes', icon: MapPin, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/comisiones', label: 'Comisiones', icon: DollarSign, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/cargas', label: 'Cargas de Combustible', icon: Droplets, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/mantenimiento', label: 'Mantenimiento', icon: Wrench, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/cubiertas', label: 'Cubiertas', icon: Disc, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/gastos', label: 'Gastos', icon: Receipt, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/clientes', label: 'Clientes', icon: Users, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/reportes', label: 'Reportes', icon: BarChart2, roles: ['admin', 'encargado'] },
+  { href: '/dashboard/usuarios', label: 'Usuarios', icon: Settings, roles: ['admin'] },
 ]
 
 interface SidebarProps {
   mobileOpen: boolean
   onMobileClose: () => void
+  userRole: string
 }
 
-export default function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
+export default function Sidebar({ mobileOpen, onMobileClose, userRole }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false)
   const pathname = usePathname()
 
@@ -38,6 +39,8 @@ export default function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
     if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
   }
+
+  const visibleItems = navItems.filter(item => item.roles.includes(userRole))
 
   return (
     <>
@@ -89,7 +92,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-3 px-2">
-          {navItems.map(({ href, label, icon: Icon }) => (
+          {visibleItems.map(({ href, label, icon: Icon }) => (
             <Link
               key={href}
               href={href}
@@ -114,7 +117,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }: SidebarProps) {
         {/* Footer */}
         {!collapsed && (
           <div className="p-4 border-t border-slate-700/50 shrink-0">
-            <p className="text-slate-500 text-xs text-center">v1.0 · Demo</p>
+            <p className="text-slate-500 text-xs text-center">v1.0 · TheKid</p>
           </div>
         )}
       </aside>

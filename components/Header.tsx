@@ -5,12 +5,19 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Menu, Bell, ChevronDown, LogOut, User } from 'lucide-react'
 
+const ROLE_LABELS: Record<string, string> = {
+  admin: 'Administrador',
+  encargado: 'Encargado',
+  chofer: 'Chofer',
+}
+
 interface HeaderProps {
   userEmail: string
+  userRole: string
   onMenuClick: () => void
 }
 
-export default function Header({ userEmail, onMenuClick }: HeaderProps) {
+export default function Header({ userEmail, userRole, onMenuClick }: HeaderProps) {
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -22,6 +29,7 @@ export default function Header({ userEmail, onMenuClick }: HeaderProps) {
   }
 
   const displayName = userEmail.split('@')[0]
+  const roleLabel = ROLE_LABELS[userRole] ?? 'Usuario'
 
   return (
     <header className="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-4 lg:px-6 shrink-0">
@@ -52,7 +60,7 @@ export default function Header({ userEmail, onMenuClick }: HeaderProps) {
             </div>
             <div className="hidden md:block text-left">
               <p className="text-sm font-medium text-slate-800 capitalize">{displayName}</p>
-              <p className="text-xs text-slate-400">Administrador</p>
+              <p className="text-xs text-slate-400">{roleLabel}</p>
             </div>
             <ChevronDown size={16} className="text-slate-400 hidden md:block" />
           </button>
@@ -65,7 +73,7 @@ export default function Header({ userEmail, onMenuClick }: HeaderProps) {
               />
               <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-xl shadow-lg border border-slate-200 z-20 py-1">
                 <div className="px-4 py-2 border-b border-slate-100">
-                  <p className="text-xs text-slate-400">Sesión activa</p>
+                  <p className="text-xs text-slate-400">Sesión activa · {roleLabel}</p>
                   <p className="text-sm font-medium text-slate-700 truncate">{userEmail}</p>
                 </div>
                 <button
