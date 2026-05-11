@@ -49,6 +49,16 @@ const estadoLabelMap: Record<string, string> = {
 
 const supabase = createClient()
 
+function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
+      {children}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+    </div>
+  )
+}
+
 export default function CamionesPage() {
   const [camiones, setCamiones] = useState<Camion[]>([])
   const [loading, setLoading] = useState(true)
@@ -152,14 +162,6 @@ export default function CamionesPage() {
   const activos = camiones.filter(c => c.estado === 'activo').length
   const enTaller = camiones.filter(c => c.estado === 'taller').length
   const fueraServicio = camiones.filter(c => c.estado === 'fuera_de_servicio').length
-
-  const Field = ({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) => (
-    <div>
-      <label className="block text-sm font-medium text-slate-700 mb-1">{label}</label>
-      {children}
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
-    </div>
-  )
 
   return (
     <div>
