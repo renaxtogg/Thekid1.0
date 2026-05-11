@@ -68,7 +68,7 @@ export default function Sidebar({ mobileOpen, onMobileClose, userRole }: Sidebar
               <div className="bg-orange-500 p-1.5 rounded-md shrink-0">
                 <Truck size={16} className="text-white" />
               </div>
-              <span className="text-white font-bold text-lg">TheKid</span>
+              <span className="text-white font-bold text-lg">GRUPO ALPESA SA</span>
             </div>
           )}
           {collapsed && (
