@@ -100,7 +100,9 @@ create table if not exists cargas_combustible (
   litros numeric not null,
   tipo_combustible text not null,
   km_al_cargar numeric,
+  precio_por_litro numeric,
   responsable text,
+  observaciones text,
   created_at timestamptz default now()
 );
 
@@ -139,11 +141,17 @@ create table if not exists cubiertas (
   posicion text not null,
   marca text,
   medida text,
+  tipo text default 'nueva',                   -- nueva | recapada | usada
   km_instalacion numeric,
   costo numeric,
-  estado text default 'buena' check (estado in ('buena', 'regular', 'para_cambiar')),
+  estado text default 'instalada' check (estado in ('instalada', 'en_deposito', 'retirada', 'dañada', 'descartada')),
   fecha_instalacion date,
+  fecha_retiro date,
+  km_retiro numeric,
   motivo_cambio text,
+  proveedor text,
+  observaciones text,
+  activo boolean default true,
   created_at timestamptz default now()
 );
 
@@ -154,9 +162,15 @@ create table if not exists gastos (
   categoria text not null,
   descripcion text not null,
   camion_id uuid references camiones(id),
+  chofer_id uuid references choferes(id),
   viaje_id uuid references viajes(id),
+  cliente_id uuid references clientes(id),
   monto numeric not null,
+  metodo_pago text,
   comprobante text,
+  numero_comprobante text,
+  observaciones text,
+  estado text default 'activo',                -- activo | anulado (soft delete)
   created_at timestamptz default now()
 );
 
