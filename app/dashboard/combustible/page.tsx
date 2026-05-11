@@ -13,7 +13,7 @@ interface Recepcion {
   litros: number
   precio_litro: number
   total: number
-  numero_factura: string | null
+  factura: string | null
   created_at: string
 }
 
@@ -36,7 +36,7 @@ const EMPTY_RECEPCION = {
   tipo_combustible: 'Gasoil',
   litros: '',
   precio_litro: '',
-  numero_factura: '',
+  factura: '',
 }
 
 const EMPTY_CARGA = {
@@ -120,7 +120,7 @@ export default function CombustiblePage() {
       litros,
       precio_litro,
       total: litros * precio_litro,
-      numero_factura: recepcionForm.numero_factura.trim() || null,
+      factura: recepcionForm.factura.trim() || null,
     })
     if (error) {
       showToast('Error: ' + error.message, 'error')
@@ -269,7 +269,7 @@ export default function CombustiblePage() {
                       <td className="px-5 py-3.5 text-sm font-medium text-slate-800">
                         ₲ {r.total.toLocaleString('es-PY')}
                       </td>
-                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden lg:table-cell">{r.numero_factura || '-'}</td>
+                      <td className="px-5 py-3.5 text-sm text-slate-500 hidden lg:table-cell">{r.factura || '-'}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -392,8 +392,8 @@ export default function CombustiblePage() {
                 <label className="block text-sm font-medium text-slate-700 mb-1">N° Factura</label>
                 <input
                   className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
-                  value={recepcionForm.numero_factura}
-                  onChange={e => setRecepcionForm(f => ({ ...f, numero_factura: e.target.value }))}
+                  value={recepcionForm.factura}
+                  onChange={e => setRecepcionForm(f => ({ ...f, factura: e.target.value }))}
                   placeholder="Ej: F-00123"
                 />
               </div>
